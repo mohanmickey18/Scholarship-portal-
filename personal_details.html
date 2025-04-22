@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Personal Details</title>
+  <style>
+    body {
+      background-color: #fff0f5;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #ff66b2;
+      text-align: center;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      background: #ffe6f0;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px #ff99cc;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      color: #d63384;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #ff66b2, #ffa3c9);
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 0 8px #ff66b2;
+    }
+  </style>
+</head>
+<body>
+  <h2>Enter Personal Details</h2>
+  <form id="personalForm">
+    <label>Name</label>
+    <input type="text" id="name" required />
+
+    <label>Father's Name</label>
+    <input type="text" id="father" required />
+
+    <label>Mother's Name</label>
+    <input type="text" id="mother" required />
+
+    <label>College</label>
+    <input type="text" id="college" required />
+
+    <label>Course</label>
+    <input type="text" id="course" required />
+
+    <label>Course Year</label>
+    <input type="number" id="year" required />
+
+    <label>Admission Date</label>
+    <input type="date" id="admission" required />
+
+    <label>Combination</label>
+    <input type="text" id="combination" required />
+
+    <label>University</label>
+    <select id="university">
+      <option value="">-- Select --</option>
+      <option value="Bangalore University">Bangalore University</option>
+      <option value="VTU">VTU</option>
+      <option value="Mysore University">Mysore University</option>
+    </select>
+    <label>Or Enter Manually</label>
+    <input type="text" id="manualUniversity" />
+
+    <label>Address</label>
+    <textarea id="address" rows="4"></textarea>
+
+    <div class="buttons">
+      <button type="button" onclick="saveDetails()">Save</button>
+      <button type="button" onclick="submitDetails()">Submit</button>
+    </div>
+  </form>
+
+  <script>
+    let isSaved = false;
+
+    function getFormData() {
+      const university = document.getElementById('manualUniversity').value.trim() || document.getElementById('university').value;
+      return {
+        name: document.getElementById('name').value.trim(),
+        father: document.getElementById('father').value.trim(),
+        mother: document.getElementById('mother').value.trim(),
+        college: document.getElementById('college').value.trim(),
+        course: document.getElementById('course').value.trim(),
+        year: document.getElementById('year').value.trim(),
+        admission: document.getElementById('admission').value.trim(),
+        combination: document.getElementById('combination').value.trim(),
+        university: university,
+        address: document.getElementById('address').value.trim()
+      };
+    }
+
+    function saveDetails() {
+      const user = localStorage.getItem("currentUser");
+      const data = getFormData();
+
+      if (!data.name) {
+        alert("Please fill all the credentials (Name is required)");
+        return;
+      }
+
+      const userData = JSON.parse(localStorage.getItem(user));
+      userData.personal = data;
+      localStorage.setItem(user, JSON.stringify(userData));
+      isSaved = true;
+      alert("Details saved!");
+    }
+
+    function submitDetails() {
+      if (!isSaved) {
+        const confirmSubmit = confirm("You have not pressed save. Are you sure to submit?");
+        if (!confirmSubmit) return;
+      }
+      window.location.href = "scholarship_details.html";
+    }
+  </script>
+</body>
+</html>

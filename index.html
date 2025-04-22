@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>State Scholarship Portal</title>
+  <style>
+    body {
+      background-color: #fff0f5;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #ff66b2;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      color: #d63384;
+      font-weight: bold;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #ff66b2, #ffa3c9);
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 0 8px #ff66b2;
+    }
+  </style>
+</head>
+<body>
+  <h2>State Scholarship Portal</h2>
+  <form id="loginForm">
+    <label>Username</label>
+    <input type="text" id="username" required />
+    
+    <label>Password</label>
+    <input type="password" id="password" required />
+    
+    <div class="buttons">
+      <button type="button" onclick="login()">Login</button>
+      <button type="button" onclick="signup()">Sign Up</button>
+    </div>
+  </form>
+
+  <script>
+    function login() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+
+      if (!user || !pass) {
+        alert("Please fill all the credentials");
+        return;
+      }
+
+      const data = JSON.parse(localStorage.getItem(user));
+
+      if (data && data.password === pass) {
+        localStorage.setItem("currentUser", user);
+        window.location.href = "personal_details.html";
+      } else {
+        alert("Incorrect username or password");
+      }
+    }
+
+    function signup() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+
+      if (!user || !pass) {
+        alert("Please fill all the credentials");
+        return;
+      }
+
+      if (localStorage.getItem(user)) {
+        alert("User already exists. Please login.");
+        return;
+      }
+
+      localStorage.setItem(user, JSON.stringify({ password: pass }));
+      localStorage.setItem("currentUser", user);
+      window.location.href = "personal_details.html";
+    }
+  </script>
+</body>
+</html>
